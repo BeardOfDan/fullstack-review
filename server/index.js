@@ -12,15 +12,13 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
 
   // use getReposByUsername then save
-  getReposByUsername(req.body.username)
+  getReposByUsername(req.username)
     .then(db.save);
-
 });
 
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
-
 
   // stringifies and then returns the top 25 repos
   res.end(JSON.stringify(db.load()));

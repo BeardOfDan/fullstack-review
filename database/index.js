@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fetcher');
+
+// There is a deprication warning in the terminal, so I
+// set the promise library for mongoose to be bluebird
+mongoose.Promise = require('bluebird');
+
+// added , { useMongoClient: true } to get rid of a deprication warning for mongoose.open
+mongoose.connect('mongodb://localhost/fetcher', { useMongoClient: true });
 
 let repoSchema = mongoose.Schema({
   // Because the id is a unique value and
@@ -109,6 +115,9 @@ const save = (repoData) => {
   for (let i = 0; i < arr.length; i++) {
     arr[i].save()
       .then(function (repo) {
+
+        console.log('\n\nREPO\n', repo, '\n\n');
+
         if (repo.writeError !== undefined) { // there was a write error!
           console.log('ERROR!', `The model arr[${i}], was not saved`);
         } else { // it wrote!
@@ -123,7 +132,7 @@ const load = () => {
   return Repo.find({}).sort({ forks: -1 }).limit(25).exec((result) => { return result; });
 };
 
-module.exports.save = save;
+module.exports = { save, load };
 
 
 

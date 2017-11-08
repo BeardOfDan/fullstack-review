@@ -1,4 +1,4 @@
-const request = require('request');
+let request = require('request');
 const config = require('../config.js');
 const Promise = require('bluebird');
 
@@ -16,21 +16,20 @@ let getReposByUsername = (username) => {
     }
   };
 
-  // promisify request
-  request = Promise.promisifyAll(request);
+  request = Promise.promisify(request);
 
-  // use request as a promise
-  // return it so that it can have a .then chain to execute db.save on the result
   return request(options)
     .then(function (res) {
       const json = JSON.parse(res.body);
-      console.log('json', json);
-      return json;
-    })
-    .then(function (repoData) {
-      // query the DB here to add the data
-      return 'TODO: FIX ME\nIn github.js getReposByUsername';
+
+      console.log('\n\nID\n', json, '\n\n');
+
+      return json; // pass along the data as a JSON
     });
+  // .then(function (repoData) {
+  //   // query the DB here to add the data
+  //   return repoData;
+  // });
 }
 
 module.exports.getReposByUsername = getReposByUsername;

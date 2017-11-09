@@ -10,7 +10,7 @@ let connectionURL = 'mongodb://localhost/fetcher';
 
 // If there is an enviornment variable, use that to set the db uri
 if ((process.env.DBPLACE !== undefined) && (process.env.DBPLACE !== null)) {
-  connectionURL = process.env.DBPLACE;
+  connectionURL = 'mongodb://' + process.env.DBPLACE;
 }
 
 // added , { useMongoClient: true } to get rid of a deprication warning for mongoose.open

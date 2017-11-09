@@ -2,7 +2,7 @@ let request = require('request');
 const Promise = require('bluebird');
 
 let getReposByUsername = (username) => {
-  if ((process.env.TOKEN !== undefiled) && (process.env.TOKEN !== null)) {
+  if ((process.env.TOKEN !== undefined) && (process.env.TOKEN !== null)) {
     // get the token from the enviornment variable
     const config = {};
     config.token = process.env.TOKEN;

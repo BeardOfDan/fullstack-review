@@ -15,7 +15,10 @@ class App extends React.Component {
     // get initial values for the repos
     const self = this;
     $.get('/repos', function (response) {
-      self.setState({ repos: JSON.parse(response) });
+      // only set the state if you have a value to set it with
+      if (response.toString().length > 0) {
+        self.setState({ repos: JSON.parse(response) });
+      }
     });
   }
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const util = require('util');
 
 // There is a deprication warning in the terminal, so I
 // set the promise library for mongoose to be bluebird
@@ -8,7 +9,7 @@ mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/fetcher', { useMongoClient: true });
 
 
-const otherRepoSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   login: String,
   id: { type: Number, unique: true, dropDups: true },
   avatar_url: String,
@@ -47,25 +48,27 @@ let repoSchema = mongoose.Schema({
   id: { type: Number, unique: true, dropDups: true },
   name: String,
   full_name: String,
-  owner: {
-    login: String,
-    id: Number,
-    avatar_url: String,
-    gravatar_id: String,
-    url: String,
-    html_url: String,
-    followers_url: String,
-    following_url: String,
-    gists_url: String,
-    starred_url: String,
-    subscriptions_url: String,
-    organizations_url: String,
-    repos_url: String,
-    events_url: String,
-    received_events_url: String,
-    type: String,
-    site_admin: Boolean
-  },
+  owner: mongoose.Schema.Types.Mixed,
+  // {
+  //   type: Object,
+  //   login: String,
+  //   id: Number,
+  //   avatar_url: String,
+  //   gravatar_id: String,
+  //   url: String,
+  //   html_url: String,
+  //   followers_url: String,
+  //   following_url: String,
+  //   gists_url: String,
+  //   starred_url: String,
+  //   subscriptions_url: String,
+  //   organizations_url: String,
+  //   repos_url: String,
+  //   events_url: String,
+  //   received_events_url: String,
+  //   type: String,
+  //   site_admin: Boolean
+  // },
   private: Boolean,
   html_url: String,
   description: String,
@@ -131,8 +134,7 @@ let repoSchema = mongoose.Schema({
   default_branch: String
 });
 
-// const Repo = mongoose.model('Repo', repoSchema);
-const Repo = mongoose.model('Repo', otherRepoSchema);
+const Repo = mongoose.model('Repo', repoSchema);
 
 const save = (repoData) => {
   // arr holds the repo(s)
@@ -145,11 +147,12 @@ const save = (repoData) => {
     arr.push(new Repo(repoData));
   }
 
+
   // save any repos
   for (let i = 0; i < arr.length; i++) {
     arr[i].save()
       .then(function (repo) {
-        console.log(`The model with the values 'login' = ${repo.login} && name = ${repo.name} has been saved`);
+        console.log(`The model with the values 'owner.login' = ${repo.owner.login} && name = ${repo.name} has been saved`);
       })
       .catch((e) => {
         console.log('ERROR!\n  In db.save()\n', e);
@@ -163,7 +166,8 @@ const load = () => {
   //   console.log('arguments', arguments);
   //   return result;
   // });
-  return Repo.find().exec()
+  //                 by forks descending
+  return Repo.find().sort({ forks: -1 }).limit(25).exec()
     .then(function (data) {
       return data;
     })

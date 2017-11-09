@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Search extends React.Component {
+class RepoTable extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -9,20 +9,34 @@ class Search extends React.Component {
     return (<table>
       <thead>
         <tr>
-          <th>Header content 1</th>
-          <th>Header content 2</th>
+          <th>Owner Login</th>
+          <th>Repo Name</th>
+          <th>Fork Count</th>
         </tr>
       </thead>
-      {/* Each repo gets a tr */}
-      <tr>
+      <tbody>
+        {/* Each this.props.repo element gets a tr */}
+        { // create an array of table rows
+          // might have to use spread operator to get the elements to render
+          this.props.repos.map((repo, index, array) => {
+            return (<tr key={index}>
+              <td><a href={`https://github.com/${repo.owner.login}`}>{repo.owner.login}</a></td>
+              <td><a href={`https://github.com/${repo.full_name}`}>{repo.name}</a></td>
+              <td>{repo.forks}</td>
+            </tr>);
+          })
+        }
+      </tbody>
+
+      {/* <tr>
         <td>
         </td>
-      </tr>
+      </tr> */}
     </table>);
   }
 }
 
-export default Search;
+export default RepoTable;
 
 
 

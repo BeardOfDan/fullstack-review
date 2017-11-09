@@ -1,12 +1,13 @@
 let request = require('request');
-const config = require('../config.js');
 const Promise = require('bluebird');
 
 let getReposByUsername = (username) => {
-  if (config.token !== undefined) {
-    // it's there, so do nothing
-  } else {
+  if ((process.env.TOKEN !== undefiled) && (process.env.TOKEN !== null)) {
+    // get the token from the enviornment variable
+    const config = {};
     config.token = process.env.TOKEN;
+  } else {
+    const config = require('../config.js');
   }
 
   let options = {

@@ -7,6 +7,39 @@ mongoose.Promise = require('bluebird');
 // added , { useMongoClient: true } to get rid of a deprication warning for mongoose.open
 mongoose.connect('mongodb://localhost/fetcher', { useMongoClient: true });
 
+
+const otherRepoSchema = mongoose.Schema({
+  login: String,
+  id: { type: Number, unique: true, dropDups: true },
+  avatar_url: String,
+  gravatar_id: String,
+  url: String,
+  html_url: String,
+  followers_url: String,
+  following_url: String,
+  gists_url: String,
+  starred_url: String,
+  subscribers_url: String,
+  organizations_url: String,
+  repos_url: String,
+  events_url: String,
+  received_events_url: String,
+  type: String,
+  site_admin: Boolean,
+  name: String,
+  company: String,
+  blog: String,
+  location: String,
+  bio: String,
+  public_repos: Number,
+  public_gists: Number,
+  followers: Number,
+  following: Number,
+  created_at: String,
+  updated: String
+});
+
+
 let repoSchema = mongoose.Schema({
   // Because the id is a unique value and
   // I set unique and dropDups to true,
@@ -98,7 +131,8 @@ let repoSchema = mongoose.Schema({
   default_branch: String
 });
 
-const Repo = mongoose.model('Repo', repoSchema);
+// const Repo = mongoose.model('Repo', repoSchema);
+const Repo = mongoose.model('Repo', otherRepoSchema);
 
 const save = (repoData) => {
   // arr holds the repo(s)
@@ -115,21 +149,27 @@ const save = (repoData) => {
   for (let i = 0; i < arr.length; i++) {
     arr[i].save()
       .then(function (repo) {
-
-        console.log('\n\nREPO\n', repo, '\n\n');
-
-        if (repo.writeError !== undefined) { // there was a write error!
-          console.log('ERROR!', `The model arr[${i}], was not saved`);
-        } else { // it wrote!
-          console.log(`The model arr[${i}], name = ${repo.name} has been saved`);
-        }
-      });
+        console.log(`The model arr[${i}], name = ${repo.name} has been saved`);
+      })
+      .catch((e) => {
+        console.log('ERROR!\n  In db.save()\n', e);
+      })
   }
 }
 
 const load = () => {
   // Set the query to find all fields, sort by their forks, only get the top 25, then execute the query
-  return Repo.find({}).sort({ forks: -1 }).limit(25).exec((result) => { return result; });
+  // return Repo.find().sort({ forks: -1 }).limit(25).exec((err, result) => {
+  //   console.log('arguments', arguments);
+  //   return result;
+  // });
+  return Repo.find().exec()
+    .then(function (data) {
+      return data;
+    })
+    .catch((e) => {
+      console.log('\nERROR IN LOAD\n', e);
+    });
 };
 
 module.exports = { save, load };

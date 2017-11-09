@@ -3,11 +3,6 @@ const config = require('../config.js');
 const Promise = require('bluebird');
 
 let getReposByUsername = (username) => {
-  // TODO - Use the request module to request repos for a specific
-  // user from the github API
-
-  // The options object has been provided to help you out,
-  // but you'll have to fill in the URL
   let options = {
     url: `https://api.github.com/users/${username}`,
     headers: {
@@ -16,17 +11,13 @@ let getReposByUsername = (username) => {
     }
   };
 
-  console.log('\n\n\nURL\n', options.url, '\n\n');
-
+  // promisify request
   request = Promise.promisify(request);
 
+  // return a promise to allow the return value to be chained with another promise, like db.save
   return request(options)
     .then(function (res) {
-      const json = JSON.parse(res.body);
-
-      console.log('\n\nJSON response from GitHub\n', json, '\n\n');
-
-      return json; // pass along the data as a JSON
+      return JSON.parse(res.body); // pass along the data as a JSON
     });
 }
 

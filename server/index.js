@@ -14,9 +14,11 @@ app.use(express.static(__dirname + '/../client/dist'));
 app.post('/repos', function (req, res) {
   // use getReposByUsername then save
   getReposByUsername(req.body.username)
-    .then(db.save);
-
-  res.end(`you did a post request! with ${JSON.stringify(req.body)}`);
+    .then(db.save)
+    .then(db.load)
+    .then(function (data) {
+      res.end(JSON.stringify(data, undefined, 2));
+    });
 });
 
 app.get('/repos', function (req, res) {

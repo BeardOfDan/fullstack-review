@@ -29,7 +29,8 @@ app.get('/repos', function (req, res) {
     });
 });
 
-let port = 1128;
+// allow the port to be set with an enviornment variable
+const port = process.env.PORT || 1128;
 
 app.listen(port, function () {
   console.log(`listening on port ${port}`);

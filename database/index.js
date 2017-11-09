@@ -6,8 +6,15 @@ const Promise = require('bluebird');
 // set the promise library for mongoose to be bluebird
 mongoose.Promise = Promise;
 
+let connectionURL = 'mongodb://localhost/fetcher';
+
+// If there is an enviornment variable, use that to set the db uri
+if ((process.env.DBPLACE !== undefined) && (process.env.DBPLACE !== null)) {
+  connectionURL = process.env.DBPLACE;
+}
+
 // added , { useMongoClient: true } to get rid of a deprication warning for mongoose.open
-mongoose.connect('mongodb://localhost/fetcher', { useMongoClient: true });
+mongoose.connect(connectionURL, { useMongoClient: true });
 
 // NOTE, this project does not require this Schema
 const userSchema = mongoose.Schema({

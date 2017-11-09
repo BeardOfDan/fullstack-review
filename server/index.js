@@ -5,6 +5,8 @@ const db = require('../database/index');
 const bodyParser = require('body-parser');
 const util = require('util');
 
+console.log('\n\n', JSON.stringify(process.env, undefined, 2), '\n\n');
+
 // allows me to get data from the request body for POST requests
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies

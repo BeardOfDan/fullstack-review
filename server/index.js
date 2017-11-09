@@ -13,10 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.use(express.static(__dirname + '/../client/dist'));
 
-app.get('/app', (req, res, next) => {
-  res.end('Hello at the app');
-});
-
 app.post('/repos', function (req, res) {
   // gets all repos for that username
   getReposByUsername(req.body.username)

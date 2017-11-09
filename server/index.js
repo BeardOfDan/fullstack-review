@@ -14,6 +14,9 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
+
+  console.log('\n\nGET /repos route\n\n');
+
   // gets all repos for that username
   getReposByUsername(req.body.username)
     .then(db.save) // saves the repos
@@ -24,6 +27,9 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
+
+  console.log('\n\nPOST /repos route\n\n');
+
   // a promise that returns the repo data
   db.load()
     .then(function (data) {

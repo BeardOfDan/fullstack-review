@@ -28,7 +28,7 @@ let getReposByUsername = (username) => {
   return request(options)
     .then(function (res) {
 
-      console.log(`\nThe data from github is:\n${res}\n`);
+      console.log(`\nThe data from github is:\n${JSON.stringify(res, undefined, 2)}\n`);
 
       return JSON.parse(res.body); // pass along the data as a JSON
     });

@@ -16,7 +16,7 @@ class RepoTable extends React.Component {
     const limitSize = function (str) {
       const maxSize = 100;
 
-      if (str === undefined) {
+      if ((str === undefined) || (str === null)) {
         return 'No Description';
       }
 

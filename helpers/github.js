@@ -27,6 +27,9 @@ let getReposByUsername = (username) => {
   // return a promise to allow the return value to be chained with another promise, like db.save
   return request(options)
     .then(function (res) {
+
+      console.log(`\nThe data from github is:\n${res}\n`);
+
       return JSON.parse(res.body); // pass along the data as a JSON
     });
 }

@@ -15,6 +15,11 @@ class RepoTable extends React.Component {
     // helper function (for the repo description)
     const limitSize = function (str) {
       const maxSize = 100;
+
+      if (str === undefined) {
+        return 'No Description';
+      }
+
       if (str.length > (maxSize - 3)) {
         return str.slice(0, 47) + '...';
       } else {

@@ -9,12 +9,14 @@ let getReposByUsername = (username) => {
   // The options object has been provided to help you out,
   // but you'll have to fill in the URL
   let options = {
-    url: 'https://api.github.com',
+    url: `https://api.github.com/users/${username}`,
     headers: {
       'User-Agent': 'request',
       'Authorization': `token ${config.TOKEN}`
     }
   };
+
+  console.log('\n\n\nURL\n', options.url, '\n\n');
 
   request = Promise.promisify(request);
 
@@ -22,14 +24,10 @@ let getReposByUsername = (username) => {
     .then(function (res) {
       const json = JSON.parse(res.body);
 
-      console.log('\n\nID\n', json, '\n\n');
+      console.log('\n\nJSON response from GitHub\n', json, '\n\n');
 
       return json; // pass along the data as a JSON
     });
-  // .then(function (repoData) {
-  //   // query the DB here to add the data
-  //   return repoData;
-  // });
 }
 
 module.exports.getReposByUsername = getReposByUsername;

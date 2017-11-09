@@ -149,7 +149,7 @@ const save = (repoData) => {
   for (let i = 0; i < arr.length; i++) {
     arr[i].save()
       .then(function (repo) {
-        console.log(`The model arr[${i}], name = ${repo.name} has been saved`);
+        console.log(`The model with the values 'login' = ${repo.login} && name = ${repo.name} has been saved`);
       })
       .catch((e) => {
         console.log('ERROR!\n  In db.save()\n', e);

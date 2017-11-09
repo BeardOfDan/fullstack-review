@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
 
-  console.log('\n\nGET /repos route\n\n');
+  console.log(`\nAbout to save data for the user ${req.body.username}...\n`);
 
   // gets all repos for that username
   getReposByUsername(req.body.username)
@@ -27,9 +27,6 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-
-  console.log('\n\nPOST /repos route\n\n');
-
   // a promise that returns the repo data
   db.load()
     .then(function (data) {

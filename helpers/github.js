@@ -3,6 +3,12 @@ const config = require('../config.js');
 const Promise = require('bluebird');
 
 let getReposByUsername = (username) => {
+  if (config.token !== undefined) {
+    // it's there, so do nothing
+  } else {
+    config.token = process.env.TOKEN;
+  }
+
   let options = {
     url: `https://api.github.com/users/${username}/repos`,
     headers: {

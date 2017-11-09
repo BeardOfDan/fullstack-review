@@ -2,12 +2,15 @@ let request = require('request');
 const Promise = require('bluebird');
 
 let getReposByUsername = (username) => {
+  let config = {};
+  config.TOKEN = 'default value that should be overwrote';
+
   if ((process.env.TOKEN !== undefined) && (process.env.TOKEN !== null)) {
     // get the token from the enviornment variable
-    const config = {};
+    config = {};
     config.token = process.env.TOKEN;
   } else {
-    const config = require('../config.js');
+    config = require('../config.js');
   }
 
   let options = {

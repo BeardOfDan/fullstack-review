@@ -25,8 +25,6 @@ app.get('/repos', function (req, res) {
   // a promise that returns the repo data
   db.load()
     .then(function (data) {
-      // from util.format documentation - https://nodejs.org/api/util.html
-      // %j - JSON. Replaced with the string '[Circular]' if the argument contains circular references.
       res.end(JSON.stringify(data, undefined, 2));
     });
 });

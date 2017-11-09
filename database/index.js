@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const util = require('util');
+const Promise = require('bluebird');
 
 // There is a deprication warning in the terminal, so I
 // set the promise library for mongoose to be bluebird
-mongoose.Promise = require('bluebird');
+mongoose.Promise = Promise;
 
 // added , { useMongoClient: true } to get rid of a deprication warning for mongoose.open
 mongoose.connect('mongodb://localhost/fetcher', { useMongoClient: true });
-
 
 const userSchema = mongoose.Schema({
   login: String,
@@ -147,25 +147,27 @@ const save = (repoData) => {
     arr.push(new Repo(repoData));
   }
 
+  // an array of promises to save the repos
+  const savePromises = arr.map((repo) => {
+    if (repo.id !== null) {
+      return repo.save().then(function (repo) {
+        console.log(`The 'Repo' model with the values 'owner.login' = ${repo.owner.login} && name = ${repo.name} has been saved`);
+      })
+        .catch((e) => {
+          // console.log('ERROR!\n  In db.save()\n', e);
+        });
+    }
+  });
 
-  // save any repos
-  for (let i = 0; i < arr.length; i++) {
-    arr[i].save()
-      .then(function (repo) {
-        console.log(`The model with the values 'owner.login' = ${repo.owner.login} && name = ${repo.name} has been saved`);
-      })
-      .catch((e) => {
-        console.log('ERROR!\n  In db.save()\n', e);
-      })
-  }
+  // Promise.all makes sure that all of the save promises are fulfilled before
+  //   executing the next promise in the chain
+  // This makes sure that when I return db.load to the client, they have
+  //   all of the data that I just saved
+  return Promise.all(savePromises);
 }
 
 const load = () => {
   // Set the query to find all fields, sort by their forks, only get the top 25, then execute the query
-  // return Repo.find().sort({ forks: -1 }).limit(25).exec((err, result) => {
-  //   console.log('arguments', arguments);
-  //   return result;
-  // });
   //                 by forks descending
   return Repo.find().sort({ forks: -1 }).limit(25).exec()
     .then(function (data) {

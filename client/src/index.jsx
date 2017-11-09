@@ -16,6 +16,8 @@ class App extends React.Component {
   search(term) {
     // ajax POST request to /repos with the username
     $.post("/repos", { username: term });
+
+    // use the success case response to set the data (without a page reload)
   }
 
   render() {

@@ -24,24 +24,20 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
 
-  // stringifies and then returns the top 25 repos
-  // TODO: handle the circular nature of the argument to stringify
-  // res.end(JSON.stringify(db.load()));
-
+  // a promise that returns the repo data
   db.load()
     .then(function (data) {
       var cache = [];
+      // NOTE the function which is the 2nd argument to JSON.stringify came from Stack Overflow
+      // https://stackoverflow.com/questions/11616630/json-stringify-avoid-typeerror-converting-circular-structure-to-json
+      // It handles the issue of stringifying a circular object
       res.end(JSON.stringify(data, function (key, value) {
-        if (typeof value === 'object' && value !== null) {
+        if ((typeof value === 'object') && (value !== null)) {
           if (cache.indexOf(value) !== -1) {
-            // Circular reference found, discard key
-            return;
+            return; // Circular reference found, discard key
           }
-          // Store value in our collection
-          cache.push(value);
+          cache.push(value); // Store value in our collection
         }
         return value;
       }, 2));

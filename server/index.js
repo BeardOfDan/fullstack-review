@@ -12,11 +12,11 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
-  // use getReposByUsername then save
+  // gets all repos for that username
   getReposByUsername(req.body.username)
-    .then(db.save)
-    .then(db.load)
-    .then(function (data) {
+    .then(db.save) // saves the repos
+    .then(db.load) // gets all saved repos
+    .then(function (data) { // responds with all saved repos
       res.end(JSON.stringify(data, undefined, 2));
     });
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 
+// This component displays the repo data
 class RepoTable extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +12,7 @@ class RepoTable extends React.Component {
     const imgStyle = { maxHeight: 50, maxWidth: 50 };
     const aStyle = { textDecoration: 'none' };
 
-    // helper function
+    // helper function (for the repo description)
     const limitSize = function (str) {
       const maxSize = 100;
       if (str.length > (maxSize - 3)) {
@@ -46,21 +47,8 @@ class RepoTable extends React.Component {
           })
         }
       </tbody>
-
-      {/* <tr>
-        <td>
-        </td>
-      </tr> */}
     </table>);
   }
 }
 
 export default RepoTable;
-
-
-
-
-
-
-// `https://github.com/${username}`;
-

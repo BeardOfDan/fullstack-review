@@ -9,6 +9,7 @@ mongoose.Promise = Promise;
 // added , { useMongoClient: true } to get rid of a deprication warning for mongoose.open
 mongoose.connect('mongodb://localhost/fetcher', { useMongoClient: true });
 
+// NOTE, this project does not require this Schema
 const userSchema = mongoose.Schema({
   login: String,
   id: { type: Number, unique: true, dropDups: true },
@@ -41,7 +42,7 @@ const userSchema = mongoose.Schema({
 });
 
 
-let repoSchema = mongoose.Schema({
+const repoSchema = mongoose.Schema({
   // Because the id is a unique value and
   // I set unique and dropDups to true,
   // there should be no duplicate repos
@@ -168,7 +169,7 @@ const save = (repoData) => {
 
 const load = () => {
   // Set the query to find all fields, sort by their forks, only get the top 25, then execute the query
-  //                 by forks descending
+  //                 sorts by # of forks: descending
   return Repo.find().sort({ forks: -1 }).limit(25).exec()
     .then(function (data) {
       return data;

@@ -21,17 +21,12 @@ class App extends React.Component {
 
   search(term) {
     const self = this;
-
     // ajax POST request to /repos with the username
     $.post('/repos', { username: term },
       // a success case function, it will load the data without a page refresh
-      function () {
-        console.log('success case!');
-        // update the DOM here with the data
-        // arguments[2].responseText holds the data
-
-        // update the state to hold the repos
-        self.setState({ repos: JSON.parse(arguments[2].responseText) });
+      function () { // arguments[2].responseText holds the data
+        console.log('POST request successful');
+        self.setState({ repos: JSON.parse(arguments[2].responseText) });// update the state to hold the repos
       });
   }
 

@@ -1,0 +1,30 @@
+{
+  "name": "hrsf84-fullstack-review",
+  "description": "A project I did to review full stack programming with MERN",
+  "scripts": {
+  },
+  "env": {
+    "DBPASSWORD": {
+      "required": true
+    },
+    "DBPLACE": {
+      "required": true
+    },
+    "DBUSERNAME": {
+      "required": true
+    },
+    "TOKEN": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

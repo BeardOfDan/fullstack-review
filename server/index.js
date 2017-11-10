@@ -5,8 +5,6 @@ const db = require('../database/index');
 const bodyParser = require('body-parser');
 const util = require('util');
 
-// console.log('\n\n', JSON.stringify(process.env, undefined, 2), '\n\n');
-
 // allows me to get data from the request body for POST requests
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -31,7 +29,7 @@ app.get('/repos', function (req, res) {
     });
 });
 
-// allow the port to be set with an enviornment variable
+// set the port with an enviornment variable
 const port = process.env.PORT || 1128;
 
 app.listen(port, function () {

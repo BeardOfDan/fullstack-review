@@ -6,6 +6,7 @@ const Promise = require('bluebird');
 // set the promise library for mongoose to be bluebird
 mongoose.Promise = Promise;
 
+// The default url only works on local machines
 let connectionURL = 'mongodb://localhost/fetcher';
 
 // If there is an enviornment variable, use that to set the db uri
@@ -21,6 +22,7 @@ if ((process.env.DBPLACE !== undefined) && (process.env.DBPLACE !== null)) {
 mongoose.connect(connectionURL, { useMongoClient: true });
 
 // NOTE, this project does not require this Schema
+// I am leaving this here in case if it is needed for a future expansion of the project
 const userSchema = mongoose.Schema({
   login: String,
   id: { type: Number, unique: true, dropDups: true },

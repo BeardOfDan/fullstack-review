@@ -10,14 +10,6 @@
   },
   "author": "Beth Johnson",
   "license": "ISC",
-  "devDependencies": {
-    "babel-core": "^6.23.1",
-    "babel-loader": "^6.3.2",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-react": "^6.23.0",
-    "bluebird": "^3.5.1",
-    "webpack": "^2.7.0"
-  },
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.15.0",

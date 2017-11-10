@@ -39,6 +39,8 @@ class App extends React.Component {
       <RepoList repos={this.state.repos} />
       <Search onSearch={this.search.bind(this)} />
       <br />
+      <hr />
+      <br />
       <RepoTable repos={this.state.repos} />
     </div>)
   }
